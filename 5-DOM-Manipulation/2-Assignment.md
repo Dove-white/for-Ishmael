@@ -29,7 +29,9 @@ Users will be able to:
 
 # 🖼️ Project Preview
 
-[text](https://devtasks-ish.netlify.app/)
+![My Image](image/Mask%20group.png "Optional title")
+
+[Link to Live Project](https://devtasks-ish.netlify.app/)
 
 ---
 
