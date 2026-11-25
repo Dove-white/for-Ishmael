@@ -72,7 +72,7 @@
       li.innerHTML = `
         <button class="complete-btn ${task.done ? 'done' : ''}"
                 aria-label="${task.done ? 'Mark incomplete' : 'Mark complete'}"
-                title="Toggle complete">
+                title="Toggle ${task.done ? 'Complete' : 'incomplete'}">
           <svg class="tick" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.5 5L4 7.5L8.5 2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -104,8 +104,9 @@
     const pct     = total === 0 ? 0 : Math.round((done / total) * 100);
 
     // textContent lets us change what text is displayed inside an element
-    statTotal.textContent   = `${total} total`;
-    statDone.textContent    = `${done} done`;
+
+    statTotal.textContent   = statTotal.textContent.replace("1", total);
+    statDone.textContent    = statDone.textContent.replace("0", done);
     statPending.textContent = `${pending} left`;
     progressPct.textContent = `${pct}%`;
 
@@ -116,6 +117,7 @@
   // ── 6. ADD TASK ───────────────────────────────────────────────
   function addTask() {
     const text = taskInput.value.trim(); // .trim() removes whitespace
+
     if (!text) {
       // Shake the input box if empty
       taskInput.parentElement.style.animation = 'none';
@@ -132,10 +134,18 @@
       priority: prioritySelect.value,
       done:     false,
     };
+
     tasks.unshift(newTask); // unshift adds to the FRONT of the array
 
     taskInput.value = ''; // clear the input
-    if (activeFilter === 'completed') activeFilter = 'all'; // reset filter
+    if (activeFilter === 'completed') {
+      activeFilter = 'all'
+
+      filterBtns.forEach(btn => {
+        btn.dataset.filter === "all" ? btn.classList.add('active') : btn.classList.remove('active');
+      })
+    
+    }; // reset filter
     render();
   }
 
